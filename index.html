@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Squad — should / shouldn't Mission</title>
+<meta name="description" content="A2 English: technology vocabulary and should/shouldn't, an interactive mission for Speak Language Center.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --ink:#10122B;
+  --ink-soft:#1B1E45;
+  --violet:#6C5CE7;
+  --violet-2:#8E7CFF;
+  --cyan:#00D9C0;
+  --coral:#FF6B6B;
+  --sun:#FFD93D;
+  --paper:#F5F7FF;
+  --paper-2:#ffffff;
+  --ring:0 0 0 3px rgba(108,92,231,.35);
+  --radius:20px;
+  --shadow: 0 10px 30px rgba(16,18,43,.18);
+  --font-display:'Baloo 2', system-ui, sans-serif;
+  --font-body:'Inter', system-ui, sans-serif;
+  --bg:var(--paper);
+  --surface:var(--paper-2);
+  --text:var(--ink);
+  --text-soft:#54577A;
+  --border: rgba(16,18,43,.08);
+}
+[data-theme="dark"]{
+  --bg:#0B0C22;
+  --surface:#161832;
+  --text:#F1F2FF;
+  --text-soft:#B7B9E0;
+  --border: rgba(255,255,255,.08);
+  --shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  transition:background .3s ease,color .3s ease;
+  overflow-x:hidden;
+}
+h1,h2,h3,.display{font-family:var(--font-display);}
+h1,h2,h3{margin:0 0 .3em;}
+a{color:inherit;}
+button{font-family:var(--font-body);cursor:pointer;}
+::selection{background:var(--sun);color:var(--ink);}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px;}
+.container{max-width:1100px;margin:0 auto;padding:0 20px;}
+.section{padding:90px 0 60px;position:relative;}
+.eyebrow{
+  display:inline-block;font-family:var(--font-display);font-weight:700;
+  letter-spacing:.04em;color:var(--violet);background:rgba(108,92,231,.12);
+  padding:6px 14px;border-radius:100px;font-size:.85rem;margin-bottom:14px;
+}
+[data-theme="dark"] .eyebrow{background:rgba(142,124,255,.18);color:var(--violet-2);}
+p.lead{color:var(--text-soft);font-size:1.08rem;max-width:640px;line-height:1.6;}
+
+/* ---------- circuit background signature ---------- */
+.circuit-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;}
+[data-theme="dark"] .circuit-bg{opacity:.35;}
+.circuit-bg svg{width:100%;height:100%;}
+.node{fill:var(--cyan);opacity:.55;animation:pulse 3.2s ease-in-out infinite;}
+.wire{stroke:var(--violet);stroke-width:1.4;fill:none;opacity:.28;stroke-dasharray:6 8;animation:flow 6s linear infinite;}
+@keyframes pulse{0%,100%{opacity:.25;r:2.2;}50%{opacity:.9;r:3.6;}}
+@keyframes flow{to{stroke-dashoffset:-140;}}
+@media (prefers-reduced-motion:reduce){.node,.wire{animation:none;}}
+
+/* ---------- navbar ---------- */
+nav.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{max-width:1200px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:10px;}
+.brand{font-family:var(--font-display);font-weight:800;font-size:1.15rem;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.brand .bot{font-size:1.4rem;}
+.navlinks{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none;}
+.navlinks::-webkit-scrollbar{display:none;}
+.navlinks a{
+  font-family:var(--font-display);font-weight:600;font-size:.85rem;
+  padding:8px 12px;border-radius:100px;white-space:nowrap;text-decoration:none;
+  color:var(--text-soft);transition:.2s;
+}
+.navlinks a:hover, .navlinks a.active{background:var(--violet);color:#fff;}
+.nav-tools{display:flex;align-items:center;gap:8px;}
+.icon-btn{
+  width:38px;height:38px;border-radius:12px;border:1px solid var(--border);
+  background:var(--surface);display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.xp-pill{
+  display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--violet),var(--cyan));
+  color:#fff;font-family:var(--font-display);font-weight:700;font-size:.8rem;
+  padding:7px 12px;border-radius:100px;white-space:nowrap;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  font-family:var(--font-display);font-weight:700;font-size:1rem;border:none;
+  padding:13px 26px;border-radius:100px;color:#fff;
+  background:linear-gradient(135deg,var(--violet),var(--violet-2));
+  box-shadow:0 6px 0 #4A3FC0, 0 10px 24px rgba(108,92,231,.35);
+  transition:transform .12s ease;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #4A3FC0;}
+.btn.cyan{background:linear-gradient(135deg,var(--cyan),#00B8A9);box-shadow:0 6px 0 #009184,0 10px 24px rgba(0,217,192,.3);}
+.btn.coral{background:linear-gradient(135deg,var(--coral),#E85555);box-shadow:0 6px 0 #C23F3F,0 10px 24px rgba(255,107,107,.3);}
+.btn.ghost{background:transparent;color:var(--text);border:2px solid var(--border);box-shadow:none;}
+.btn.small{padding:9px 16px;font-size:.85rem;box-shadow:0 4px 0 rgba(0,0,0,.15);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+
+/* ---------- hero ---------- */
+.hero{min-height:92vh;display:flex;align-items:center;padding-top:70px;position:relative;z-index:1;}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center;}
+@media(max-width:880px){.hero-grid{grid-template-columns:1fr;}}
+.hero h1{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.05;}
+.hero h1 .glow{background:linear-gradient(135deg,var(--violet),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-cta{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap;}
+.stat-row{display:flex;gap:22px;margin-top:34px;flex-wrap:wrap;}
+.stat{font-family:var(--font-display);}
+.stat b{display:block;font-size:1.5rem;color:var(--violet);}
+[data-theme="dark"] .stat b{color:var(--violet-2);}
+.stat span{font-size:.8rem;color:var(--text-soft);}
+
+.device-mock{
+  position:relative;width:100%;max-width:340px;margin:0 auto;
+  aspect-ratio:9/17;border-radius:38px;background:linear-gradient(160deg,var(--ink),#25275e);
+  box-shadow:var(--shadow);padding:14px;
+}
+.device-screen{
+  width:100%;height:100%;border-radius:26px;overflow:hidden;position:relative;
+  background:radial-gradient(circle at 30% 20%, #2b2d68, #10122B 70%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+}
+.device-screen .emoji-float{position:absolute;font-size:1.8rem;animation:float 4s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+.bubble{
+  background:#fff;color:var(--ink);font-family:var(--font-display);font-weight:700;
+  padding:10px 16px;border-radius:16px;font-size:.95rem;box-shadow:0 6px 16px rgba(0,0,0,.3);
+  animation:pop .5s ease;
+}
+@keyframes pop{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+/* ---------- cards / grid ---------- */
+.grid{display:grid;gap:20px;}
+.grid.cols-4{grid-template-columns:repeat(4,1fr);}
+.grid.cols-3{grid-template-columns:repeat(3,1fr);}
+.grid.cols-2{grid-template-columns:repeat(2,1fr);}
+@media(max-width:900px){.grid.cols-4{grid-template-columns:repeat(2,1fr);}.grid.cols-3{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.grid.cols-4,.grid.cols-3,.grid.cols-2{grid-template-columns:1fr;}}
+
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:22px;box-shadow:var(--shadow);
+}
+
+/* flashcards */
+.flash{perspective:1200px;height:230px;}
+.flash-inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.2,.9,.3,1.3);transform-style:preserve-3d;cursor:pointer;border-radius:var(--radius);}
+.flash.flipped .flash-inner{transform:rotateY(180deg);}
+.flash-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;border:1px solid var(--border);box-shadow:var(--shadow);}
+.flash-face.front{background:linear-gradient(160deg,var(--violet),var(--violet-2));color:#fff;}
+.flash-face.back{background:var(--surface);transform:rotateY(180deg);}
+.flash-face .big-emoji{font-size:3.2rem;}
+.flash-face .word{font-family:var(--font-display);font-weight:800;font-size:1.3rem;}
+.flash-face .ipa{font-size:.85rem;opacity:.85;}
+.flash-face small{color:var(--text-soft);}
+.flash-face .example{font-style:italic;font-size:.85rem;color:var(--text-soft);}
+.pron-btn{border:none;background:var(--cyan);color:#0B0C22;width:34px;height:34px;border-radius:100px;font-size:1rem;}
+
+.badge{display:inline-block;background:rgba(0,217,192,.15);color:#009184;font-family:var(--font-display);font-weight:700;font-size:.72rem;padding:4px 10px;border-radius:100px;}
+[data-theme="dark"] .badge{color:var(--cyan);}
+
+/* progress bar */
+.progress-track{width:100%;height:16px;background:var(--border);border-radius:100px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--violet),var(--cyan));border-radius:100px;transition:width .5s ease;}
+
+/* toast / feedback */
+#toast{
+  position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(140%);
+  background:var(--ink);color:#fff;font-family:var(--font-display);font-weight:700;
+  padding:14px 22px;border-radius:100px;box-shadow:var(--shadow);z-index:999;
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.3);display:flex;align-items:center;gap:10px;
+}
+#toast.show{transform:translateX(-50%) translateY(0);}
+#toast.good{background:#0F9F6E;}
+#toast.bad{background:#E85555;}
+
+/* confetti */
+.confetti-piece{position:fixed;top:-10px;width:10px;height:14px;z-index:998;pointer-events:none;animation:fall linear forwards;}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.3;}}
+
+/* mascot byte */
+.byte{position:fixed;right:18px;bottom:18px;z-index:60;width:64px;height:64px;font-size:2.4rem;
+  display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);
+  border-radius:50%;box-shadow:var(--shadow);transition:transform .25s;}
+.byte.happy{animation:bounce .5s;}
+.byte.sad{animation:shake .5s;}
+@keyframes bounce{0%,100%{transform:translateY(0);}40%{transform:translateY(-16px) rotate(-8deg);}}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+
+/* tabs (games / listening / reading) */
+.tabbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px;}
+.tabbar button{
+  border:1px solid var(--border);background:var(--surface);color:var(--text-soft);
+  padding:9px 16px;border-radius:100px;font-family:var(--font-display);font-weight:700;font-size:.85rem;
+}
+.tabbar button.active{background:var(--violet);color:#fff;border-color:transparent;}
+.panel{display:none;}
+.panel.active{display:block;animation:pop .35s ease;}
+
+/* grammar scenario */
+.scenario{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center;}
+@media(max-width:700px){.scenario{grid-template-columns:1fr;}}
+.scenario .situation{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);font-family:var(--font-display);font-size:1.2rem;text-align:center;}
+.choice-btn{display:block;width:100%;text-align:left;background:var(--surface);border:2px solid var(--border);
+  border-radius:14px;padding:14px 18px;margin-bottom:10px;font-family:var(--font-body);font-weight:600;font-size:1rem;}
+.choice-btn:hover{border-color:var(--violet);}
+.choice-btn.correct{background:rgba(15,159,110,.15);border-color:#0F9F6E;}
+.choice-btn.incorrect{background:rgba(232,85,85,.15);border-color:#E85555;}
+
+.explain-box{background:linear-gradient(160deg, rgba(108,92,231,.08), rgba(0,217,192,.08));border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:20px;}
+.rule-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px;}
+@media(max-width:640px){.rule-grid{grid-template-columns:1fr;}}
+.rule-box{background:var(--surface);border-radius:14px;padding:16px;border-left:5px solid var(--cyan);}
+.rule-box.neg{border-left-color:var(--coral);}
+
+/* memory game */
+.memory-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+@media(max-width:640px){.memory-grid{grid-template-columns:repeat(4,1fr);}}
+.mem-card{aspect-ratio:1;border-radius:14px;background:linear-gradient(160deg,var(--violet),var(--violet-2));
+  display:flex;align-items:center;justify-content:center;font-size:1.7rem;color:#fff;border:none;box-shadow:var(--shadow);}
+.mem-card.revealed{background:var(--surface);color:var(--text);}
+.mem-card.matched{background:rgba(15,159,110,.2);color:#0F9F6E;}
+
+/* drag drop */
+.dd-wrap{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
+@media(max-width:700px){.dd-wrap{grid-template-columns:1fr;}}
+.dd-item{background:var(--surface);border:2px dashed var(--border);border-radius:14px;padding:14px;margin-bottom:10px;
+  font-family:var(--font-display);font-weight:700;cursor:grab;text-align:center;}
+.dd-target{background:var(--surface);border:2px dashed var(--violet);border-radius:14px;padding:16px;margin-bottom:10px;
+  min-height:56px;display:flex;align-items:center;gap:10px;font-weight:600;}
+.dd-target.filled{border-style:solid;border-color:#0F9F6E;}
+.dd-target.wrong-flash{border-color:#E85555;}
+
+/* quiz */
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-family:var(--font-display);font-weight:700;}
+.timer-ring{font-size:1.4rem;color:var(--coral);}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);}
+.q-card h3{font-size:1.2rem;}
+
+/* sentence builder */
+.word-bank{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0;}
+.word-chip{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-family:var(--font-display);font-weight:700;}
+.word-chip.used{opacity:.35;}
+.sentence-line{min-height:56px;border:2px dashed var(--border);border-radius:14px;display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:10px;margin-bottom:14px;}
+.sentence-line .word-chip{background:var(--violet);color:#fff;border:none;}
+
+/* wheel */
+.wheel-wrap{display:flex;flex-direction:column;align-items:center;gap:20px;}
+.wheel-outer{position:relative;width:280px;height:280px;}
+.wheel-outer::after{content:"▼";position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:1.6rem;color:var(--coral);}
+#wheel{width:100%;height:100%;border-radius:50%;border:6px solid var(--surface);box-shadow:var(--shadow);transition:transform 3.5s cubic-bezier(.17,.67,.16,1);}
+
+/* mission */
+.mission-step{display:none;}
+.mission-step.active{display:block;}
+
+/* reading */
+.story-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);line-height:1.75;font-size:1.05rem;}
+.story-box b.hl{background:rgba(255,217,61,.35);padding:1px 4px;border-radius:4px;}
+
+/* writing */
+textarea{
+  width:100%;min-height:140px;border-radius:14px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text);padding:14px;font-family:var(--font-body);font-size:1rem;resize:vertical;
+}
+.starter-chip{display:inline-block;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:8px 14px;margin:4px 6px 4px 0;font-family:var(--font-display);font-weight:700;font-size:.85rem;}
+
+/* certificate */
+.cert{
+  background:linear-gradient(160deg,#fff,#F5F7FF);color:var(--ink);border-radius:24px;padding:40px;
+  border:6px double var(--violet);text-align:center;box-shadow:var(--shadow);position:relative;
+}
+.cert h2{font-size:2rem;}
+.cert .name{font-family:var(--font-display);font-size:1.8rem;color:var(--violet);border-bottom:2px solid var(--violet);display:inline-block;padding:0 10px 4px;}
+.cert .seal{font-size:3rem;}
+
+/* badges wall */
+.badge-wall{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:640px){.badge-wall{grid-template-columns:repeat(2,1fr);}}
+.badge-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;opacity:.35;transition:.3s;}
+.badge-card.earned{opacity:1;box-shadow:var(--shadow);}
+.badge-card .ic{font-size:2rem;}
+
+footer{padding:40px 0;text-align:center;color:var(--text-soft);font-size:.85rem;position:relative;z-index:1;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+</style>
+</head>
+<body data-theme="light">
+
+<div class="circuit-bg" aria-hidden="true">
+  <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path class="wire" d="M0 120 H300 V300 H600 V80 H1200"/>
+    <path class="wire" d="M0 500 H200 V650 H500 V500 H900 V700 H1200"/>
+    <path class="wire" d="M100 0 V200 H400 V600"/>
+    <circle class="node" cx="300" cy="120" r="3"/>
+    <circle class="node" cx="300" cy="300" r="3" style="animation-delay:.4s"/>
+    <circle class="node" cx="600" cy="80" r="3" style="animation-delay:.8s"/>
+    <circle class="node" cx="200" cy="500" r="3" style="animation-delay:1.2s"/>
+    <circle class="node" cx="500" cy="600" r="3" style="animation-delay:1.6s"/>
+    <circle class="node" cx="900" cy="700" r="3" style="animation-delay:2s"/>
+    <circle class="node" cx="400" cy="200" r="3" style="animation-delay:2.4s"/>
+  </svg>
+</div>
+
+<nav class="topbar">
+  <div class="nav-inner">
+    <div class="brand"><span class="bot">🤖</span> Tech Squad</div>
+    <div class="navlinks" id="navlinks">
+      <a href="#home">🏠 Home</a>
+      <a href="#vocab">📚 Vocabulary</a>
+      <a href="#listen">🎧 Listen</a>
+      <a href="#grammar">📝 Grammar</a>
+      <a href="#practice">🎮 Practice</a>
+      <a href="#reading">📖 Reading</a>
+      <a href="#writing">✍️ Writing</a>
+      <a href="#speaking">🎤 Speaking</a>
+      <a href="#challenge">🏆 Final Mission</a>
+      <a href="#progress">📈 Progress</a>
+    </div>
+    <div class="nav-tools">
+      <div class="xp-pill">⭐ <span id="xpDisplay">0</span> XP · Lvl <span id="lvlDisplay">1</span></div>
+      <button class="icon-btn" id="soundToggle" title="Mute / unmute sounds" aria-label="Toggle sound">🔊</button>
+      <button class="icon-btn" id="themeToggle" title="Dark / light mode" aria-label="Toggle theme">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HOME ================= -->
+<section class="section hero" id="home">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">A2 · Ages 11–13 · Speak Language Center</span>
+      <h1>Give tech advice like a pro.<br>Learn <span class="glow">should / shouldn't</span>.</h1>
+      <p class="lead">Explore 12 technology words, discover the grammar rule yourself, then play 6 games, read a story, write advice, and speak your mind — all to unlock your <b>Tech Squad</b> certificate.</p>
+      <div class="hero-cta">
+        <button class="btn" onclick="go('vocab')">Start Learning 🚀</button>
+        <button class="btn ghost" onclick="go('progress')">My Progress</button>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><b>12</b><span>vocabulary words</span></div>
+        <div class="stat"><b>6</b><span>games</span></div>
+        <div class="stat"><b>4</b><span>badges to win</span></div>
+      </div>
+    </div>
+    <div class="device-mock" aria-hidden="true">
+      <div class="device-screen">
+        <span class="emoji-float" style="top:14%;left:16%;">📱</span>
+        <span class="emoji-float" style="top:20%;right:12%;animation-delay:.7s;">🎧</span>
+        <span class="emoji-float" style="bottom:18%;left:14%;animation-delay:1.4s;">⌨️</span>
+        <div class="bubble">"My battery is 1%!"</div>
+        <div class="bubble" style="background:var(--cyan);">You should charge it! 🔋</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VOCABULARY ================= -->
+<section class="section" id="vocab">
+  <div class="container">
+    <span class="eyebrow">📚 Learn Vocabulary</span>
+    <h2>Flip every card. Tap 🔊 to hear it.</h2>
+    <p class="lead">Click a card to flip it and see the meaning, an example, and a common collocation.</p>
+    <div class="grid cols-4" id="vocabGrid" style="margin-top:26px;"></div>
+  </div>
+</section>
+
+<!-- ================= LISTEN ================= -->
+<section class="section" id="listen">
+  <div class="container">
+    <span class="eyebrow">🎧 Listen</span>
+    <h2>Listening Lab</h2>
+    <p class="lead">Every sentence is read aloud (British voice, when available). Replay, slow it down, then answer.</p>
+    <div class="tabbar" id="listenTabs"></div>
+    <div id="listenPanels"></div>
+  </div>
+</section>
+
+<!-- ================= GRAMMAR ================= -->
+<section class="section" id="grammar">
+  <div class="container">
+    <span class="eyebrow">📝 Grammar</span>
+    <h2>should / shouldn't — work out the rule</h2>
+    <p class="lead">Read each situation and choose the best piece of advice. Watch out for the trick answer!</p>
+    <div id="scenarioBox" style="margin-top:20px;"></div>
+    <div style="text-align:center;margin-top:14px;">
+      <button class="btn small ghost" id="nextScenario">Next situation →</button>
+    </div>
+    <div class="explain-box" id="explainBox" style="display:none;">
+      <h3>🔎 The Rule</h3>
+      <p>We use <b>should</b> and <b>shouldn't</b> to give advice or say what is a good/bad idea.</p>
+      <div class="rule-grid">
+        <div class="rule-box">
+          <b>should + verb</b>
+          <p style="margin:6px 0 0;">You <b>should</b> charge your laptop.<br>People <b>should</b> take breaks from screens.</p>
+        </div>
+        <div class="rule-box neg">
+          <b>shouldn't (should not) + verb</b>
+          <p style="margin:6px 0 0;">You <b>shouldn't</b> spend five hours playing games.<br>You <b>shouldn't</b> use your phone in class.</p>
+        </div>
+      </div>
+      <p style="margin-top:14px;"><b>Common mistake:</b> don't add "to" — say <i>you should charge it</i>, not <s>you should to charge it</s>. The verb after should never changes for he/she/it either: <i>he should charge it</i>, not <s>he shoulds charge it</s>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRACTICE / GAMES ================= -->
+<section class="section" id="practice">
+  <div class="container">
+    <span class="eyebrow">🎮 Practice</span>
+    <h2>Choose your game</h2>
+    <div class="tabbar" id="gameTabs"></div>
+
+    <div class="panel" id="game-memory">
+      <p class="lead">Flip two cards. Match the word with its emoji.</p>
+      <div class="memory-grid" id="memoryGrid"></div>
+    </div>
+
+    <div class="panel" id="game-dragdrop">
+      <p class="lead">Click a word, then click the definition it matches.</p>
+      <div class="dd-wrap">
+        <div id="ddWords"></div>
+        <div id="ddTargets"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="game-quiz">
+      <div class="quiz-header">
+        <span>Fast Quiz — 30 seconds</span>
+        <span class="timer-ring" id="quizTimer">30s</span>
+      </div>
+      <div class="q-card" id="quizCard"></div>
+      <div style="text-align:center;margin-top:16px;">
+        <button class="btn cyan small" id="quizStart">Start quiz</button>
+      </div>
+    </div>
+
+    <div class="panel" id="game-sentence">
+      <p class="lead">Tap the words in order to build a correct sentence.</p>
+      <div class="sentence-line" id="sentenceLine"></div>
+      <div class="word-bank" id="sentenceBank"></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn small" id="checkSentence">Check ✔</button>
+        <button class="btn small ghost" id="resetSentence">Reset</button>
+        <button class="btn small ghost" id="nextSentence">New sentence →</button>
+      </div>
+    </div>
+
+    <div class="panel" id="game-wheel">
+      <p class="lead">Spin the wheel, then say or write a sentence using should/shouldn't with that word.</p>
+      <div class="wheel-wrap">
+        <div class="wheel-outer"><canvas id="wheel" width="280" height="280"></canvas></div>
+        <button class="btn coral" id="spinBtn">Spin the wheel 🎡</button>
+        <div class="q-card" id="wheelResult" style="display:none;"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="game-mission">
+      <p class="lead">Help Alex, a teenager getting ready for school, by giving good advice.</p>
+      <div id="missionBox"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= READING ================= -->
+<section class="section" id="reading">
+  <div class="container">
+    <span class="eyebrow">📖 Reading</span>
+    <h2>A Day with Technology</h2>
+    <div class="story-box" id="storyBox"></div>
+    <div class="tabbar" id="readTabs" style="margin-top:24px;"></div>
+    <div id="readPanels"></div>
+  </div>
+</section>
+
+<!-- ================= WRITING ================= -->
+<section class="section" id="writing">
+  <div class="container">
+    <span class="eyebrow">✍️ Writing</span>
+    <h2>Write your own advice</h2>
+    <p class="lead">Finish each sentence starter, then write a short paragraph giving technology advice.</p>
+    <div id="starters"></div>
+    <div style="margin-top:18px;">
+      <label for="paragraph" style="font-family:var(--font-display);font-weight:700;display:block;margin-bottom:8px;">My technology advice paragraph</label>
+      <textarea id="paragraph" placeholder="People should... My friends shouldn't... I should..."></textarea>
+      <button class="btn small" id="saveWriting" style="margin-top:10px;">Save my writing 💾</button>
+      <span id="writingSaved" style="margin-left:10px;color:var(--text-soft);font-size:.85rem;"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPEAKING ================= -->
+<section class="section" id="speaking">
+  <div class="container">
+    <span class="eyebrow">🎤 Speaking</span>
+    <h2>Say it out loud</h2>
+    <p class="lead">Practise answering these questions. If your browser supports it, record yourself and listen back.</p>
+    <div class="grid cols-2" id="speakingPrompts"></div>
+  </div>
+</section>
+
+<!-- ================= FINAL MISSION ================= -->
+<section class="section" id="challenge">
+  <div class="container">
+    <span class="eyebrow">🏆 Final Mission</span>
+    <h2>Escape Room: unlock your certificate</h2>
+    <p class="lead">Solve all locks in order. Every correct answer removes one lock.</p>
+    <div class="grid cols-3" id="locksGrid" style="margin-bottom:26px;"></div>
+    <div id="lockQuestion"></div>
+    <div class="card" id="certArea" style="display:none;margin-top:20px;">
+      <h3>🎉 All locks open! Claim your certificate</h3>
+      <label for="studentName" style="font-family:var(--font-display);font-weight:700;">Your name</label><br>
+      <input id="studentName" type="text" placeholder="Type your name" style="padding:10px 14px;border-radius:10px;border:1px solid var(--border);margin:8px 0 12px;width:260px;max-width:100%;background:var(--surface);color:var(--text);">
+      <br><button class="btn cyan" id="genCert">Generate certificate 🎓</button>
+      <div id="certOutput" style="margin-top:20px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROGRESS ================= -->
+<section class="section" id="progress">
+  <div class="container">
+    <span class="eyebrow">📈 Progress</span>
+    <h2>My Tech Squad journey</h2>
+    <div class="card" style="margin-bottom:22px;">
+      <div style="display:flex;justify-content:space-between;font-family:var(--font-display);font-weight:700;margin-bottom:8px;">
+        <span>Level <span id="progLvl">1</span></span><span><span id="progXp">0</span> XP</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progFill" style="width:0%;"></div></div>
+      <p style="color:var(--text-soft);margin-top:10px;">Daily streak: 🔥 <span id="streakCount">1</span> day(s)</p>
+    </div>
+    <h3>Badges</h3>
+    <div class="badge-wall" id="badgeWall"></div>
+    <div style="margin-top:24px;">
+      <button class="btn ghost small" id="resetProgress">Reset all progress</button>
+    </div>
+  </div>
+</section>
+
+<footer>Made for Speak Language Center · A2 English · should / shouldn't &amp; technology vocabulary</footer>
+
+<div id="toast"></div>
+<button class="byte" id="byte" aria-hidden="true">🤖</button>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const VOCAB = [
+ {w:"laptop",e:"💻",ipa:"/ˈlæp.tɒp/",def:"a small computer you can carry and use anywhere",ex:"I do my homework on my laptop.",col:"charge your laptop"},
+ {w:"e-reader",e:"📖",ipa:"/ˈiː riː.dər/",def:"a device for reading digital books",ex:"She reads a new book on her e-reader every week.",col:"read on an e-reader"},
+ {w:"fitness tracker",e:"⌚",ipa:"/ˈfɪt.nəs ˌtræk.ər/",def:"a small device that counts your steps and checks your health",ex:"My fitness tracker says I walked 6,000 steps today.",col:"wear a fitness tracker"},
+ {w:"games console",e:"🎮",ipa:"/ɡeɪmz ˈkɒn.səʊl/",def:"a machine you connect to a TV to play video games",ex:"My brother plays football games on his games console.",col:"turn on the games console"},
+ {w:"headphones",e:"🎧",ipa:"/ˈhed.fəʊnz/",def:"you wear these on your ears to listen privately",ex:"I use headphones so I don't disturb my family.",col:"use headphones"},
+ {w:"keyboard",e:"⌨️",ipa:"/ˈkiː.bɔːd/",def:"the part with letters and numbers you press to type",ex:"He types very fast on the keyboard.",col:"type on a keyboard"},
+ {w:"mouse",e:"🖱️",ipa:"/maʊs/",def:"a small device you move to control the computer screen",ex:"Click the mouse to open the file.",col:"click the mouse"},
+ {w:"printer",e:"🖨️",ipa:"/ˈprɪn.tər/",def:"a machine that puts your document on paper",ex:"Can you print a document on the printer, please?",col:"print a document"},
+ {w:"screen",e:"🖥️",ipa:"/skriːn/",def:"the flat surface where you see pictures and words",ex:"Don't sit too close to the screen.",col:"look at the screen"},
+ {w:"smartphone",e:"📱",ipa:"/ˈsmɑːt.fəʊn/",def:"a phone that can also go on the internet and run apps",ex:"I charge my smartphone every night.",col:"charge your smartphone"},
+ {w:"speaker",e:"🔊",ipa:"/ˈspiː.kər/",def:"a device that makes sound louder for everyone to hear",ex:"We listen to music with speakers at parties.",col:"listen with speakers"},
+ {w:"tablet",e:"📓",ipa:"/ˈtæb.lət/",def:"a flat touch-screen device, bigger than a phone",ex:"My little sister draws pictures on her tablet.",col:"draw on a tablet"}
+];
+
+const SCENARIOS = [
+ {sit:"My phone battery is 1%.",correct:"You should charge it.",wrong:"You shouldn't charge it."},
+ {sit:"It's midnight and I'm still playing on my games console.",correct:"You shouldn't play games so late.",wrong:"You should play games all night."},
+ {sit:"My document has a mistake and I need a paper copy.",correct:"You should print it again.",wrong:"You shouldn't print it."},
+ {sit:"I listen to loud music with headphones for 6 hours a day.",correct:"You shouldn't use headphones for so long.",wrong:"You should use headphones for 6 more hours."},
+ {sit:"My eyes hurt after looking at my laptop screen for 3 hours.",correct:"You should take a break from the screen.",wrong:"You shouldn't take a break."},
+ {sit:"My little brother wants to touch my tablet with dirty hands.",correct:"He shouldn't touch it with dirty hands.",wrong:"He should touch it with dirty hands."}
+];
+
+const QUIZ = [
+ {q:"You ___ charge your smartphone at night.",a:["should","shouldn't"],c:0},
+ {q:"Choose the correct word: You _____ spend 6 hours playing games.",a:["should","shouldn't"],c:1},
+ {q:"Which device do you use to type?",a:["keyboard","speaker"],c:0},
+ {q:"Which word means 'a book you read on a screen'?",a:["e-reader","printer"],c:0},
+ {q:"You ___ take a break from the screen.",a:["should","shouldn't"],c:0},
+ {q:"What do you click to open a file on a computer?",a:["mouse","tablet"],c:0},
+ {q:"You ___ use your phone during the exam.",a:["should","shouldn't"],c:1},
+ {q:"Which device counts your steps?",a:["fitness tracker","printer"],c:0}
+];
+
+const SENTENCES = [
+ {words:["You","should","charge","your","laptop","."],},
+ {words:["You","shouldn't","play","games","all","night","."]},
+ {words:["People","should","take","breaks","from","screens","."]},
+ {words:["He","shouldn't","use","headphones","too","loud","."]},
+ {words:["Students","should","use","tablets","for","homework","."]}
+];
+
+const MISSION = [
+ {sit:"Alex's smartphone battery is at 2% before school.",options:["Alex should charge it now.","Alex shouldn't charge it now."],c:0},
+ {sit:"Alex wants to watch videos in class on a tablet.",options:["Alex should watch videos in class.","Alex shouldn't use a tablet in class."],c:1},
+ {sit:"Alex's headphones are broken.",options:["Alex should get new headphones.","Alex shouldn't tell anyone."],c:0},
+ {sit:"Alex forgot to print the homework.",options:["Alex should print it before class.","Alex shouldn't print it at all."],c:0}
+];
+
+const STORY = `Ben wakes up and checks his <b class="hl">smartphone</b>. It's 7 a.m.! He turns off the alarm and gets dressed quickly. At breakfast, his sister is reading on her <b class="hl">e-reader</b>, and his dad is typing an email on his <b class="hl">laptop</b> using the <b class="hl">keyboard</b> and <b class="hl">mouse</b>.
+
+At school, Ben's teacher says, "You shouldn't use your phone in class, but you should bring your <b class="hl">tablet</b> for the art project." Ben listens to instructions through his <b class="hl">headphones</b> during a video, then helps a classmate <b class="hl">print a document</b> on the <b class="hl">printer</b> for homework.
+
+After school, Ben plays his favourite game on his <b class="hl">games console</b>, but only for one hour — he shouldn't play for longer, because his eyes get tired from the bright <b class="hl">screen</b>. His mum checks her <b class="hl">fitness tracker</b>: 8,000 steps today! In the evening, the family listens to music together through the <b class="hl">speaker</b>. Ben charges his smartphone before bed. He knows that you should always take care of your devices — and take care of yourself, too.`;
+
+const STARTERS = ["I should...","My parents shouldn't...","People should...","My teacher should...","My friends shouldn't..."];
+
+const SPEAKING = [
+ "What technology do you use every day?",
+ "What should students do with smartphones at school?",
+ "What shouldn't people do before going to sleep?",
+ "Which device could you not live without? Why?"
+];
+
+/* ============================================================
+   STATE / STORAGE
+   ============================================================ */
+const state = JSON.parse(localStorage.getItem("techSquadState")||"null") || {
+  xp:0, badges:{vocab:false,grammar:false,listening:false,games:false}, streak:1, lastVisit:null, writing:""
+};
+(function streakCheck(){
+  const today = new Date().toDateString();
+  if(state.lastVisit && state.lastVisit!==today){
+    const diff = (new Date(today)-new Date(state.lastVisit))/86400000;
+    state.streak = diff===1 ? state.streak+1 : 1;
+  }
+  state.lastVisit = today;
+  save();
+})();
+function save(){ localStorage.setItem("techSquadState", JSON.stringify(state)); renderProgress(); }
+function addXP(n, badgeKey){
+  state.xp += n;
+  if(badgeKey) state.badges[badgeKey]=true;
+  save();
+  playTone("good");
+  byteReact(true);
+}
+function renderProgress(){
+  const lvl = Math.floor(state.xp/100)+1;
+  const pct = state.xp%100;
+  document.getElementById("xpDisplay").textContent = state.xp;
+  document.getElementById("lvlDisplay").textContent = lvl;
+  document.getElementById("progXp").textContent = state.xp;
+  document.getElementById("progLvl").textContent = lvl;
+  document.getElementById("progFill").style.width = pct+"%";
+  document.getElementById("streakCount").textContent = state.streak;
+  document.querySelectorAll(".badge-card").forEach(el=>{
+    el.classList.toggle("earned", !!state.badges[el.dataset.key]);
+  });
+}
+
+/* ============================================================
+   SOUND (Web Audio API — no external files)
+   ============================================================ */
+let muted = localStorage.getItem("techSquadMuted")==="1";
+const AC = window.AudioContext || window.webkitAudioContext ? new (window.AudioContext||window.webkitAudioContext)() : null;
+function playTone(type){
+  if(muted || !AC) return;
+  const o = AC.createOscillator(), g = AC.createGain();
+  o.connect(g); g.connect(AC.destination);
+  let freqs = [440]; let dur=.15;
+  if(type==="click"){freqs=[600]; dur=.05;}
+  if(type==="good"){freqs=[523,659,784]; dur=.12;}
+  if(type==="bad"){freqs=[220,180]; dur=.18;}
+  if(type==="level"){freqs=[523,659,784,1046]; dur=.14;}
+  let t = AC.currentTime;
+  freqs.forEach((f,i)=>{
+    o.frequency.setValueAtTime(f, t+i*dur);
+  });
+  g.gain.setValueAtTime(.001, t);
+  g.gain.exponentialRampToValueAtTime(.15, t+.02);
+  g.gain.exponentialRampToValueAtTime(.001, t+dur*freqs.length);
+  o.start(t); o.stop(t+dur*freqs.length+.05);
+}
+document.getElementById("soundToggle").addEventListener("click", e=>{
+  muted = !muted;
+  localStorage.setItem("techSquadMuted", muted?"1":"0");
+  e.target.textContent = muted ? "🔇" : "🔊";
+});
+if(muted) document.getElementById("soundToggle").textContent="🔇";
+
+/* ============================================================
+   THEME
+   ============================================================ */
+const savedTheme = localStorage.getItem("techSquadTheme") || "light";
+document.body.setAttribute("data-theme", savedTheme);
+document.getElementById("themeToggle").textContent = savedTheme==="dark" ? "☀️" : "🌙";
+document.getElementById("themeToggle").addEventListener("click", ()=>{
+  const cur = document.body.getAttribute("data-theme");
+  const next = cur==="dark" ? "light" : "dark";
+  document.body.setAttribute("data-theme", next);
+  localStorage.setItem("techSquadTheme", next);
+  document.getElementById("themeToggle").textContent = next==="dark" ? "☀️" : "🌙";
+});
+
+/* ============================================================
+   TOAST / CONFETTI / MASCOT
+   ============================================================ */
+function toast(msg, kind){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = "show" + (kind ? " "+kind : "");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>{ t.classList.remove("show"); }, 2200);
+}
+function confetti(n){
+  const colors = ["#6C5CE7","#00D9C0","#FF6B6B","#FFD93D"];
+  for(let i=0;i<(n||40);i++){
+    const p = document.createElement("div");
+    p.className="confetti-piece";
+    p.style.left = Math.random()*100+"vw";
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDuration = (2+Math.random()*1.5)+"s";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(), 3600);
+  }
+}
+function byteReact(happy){
+  const b = document.getElementById("byte");
+  b.className = "byte " + (happy?"happy":"sad");
+  b.textContent = happy ? "🤖" : "😅";
+  setTimeout(()=>{ b.className="byte"; b.textContent="🤖"; }, 700);
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+document.getElementById("navlinks").addEventListener("click", e=>{
+  if(e.target.tagName==="A") playTone("click");
+});
+function go(id){ document.getElementById(id).scrollIntoView({behavior:"smooth"}); }
+const sections = document.querySelectorAll(".section");
+const navA = document.querySelectorAll("#navlinks a");
+window.addEventListener("scroll", ()=>{
+  let cur = "home";
+  sections.forEach(s=>{ if(window.scrollY+120 >= s.offsetTop) cur = s.id; });
+  navA.forEach(a=> a.classList.toggle("active", a.getAttribute("href")==="#"+cur));
+});
+
+/* ============================================================
+   SPEECH SYNTHESIS (British voice if available)
+   ============================================================ */
+function speak(text){
+  if(!('speechSynthesis' in window)) { toast("Speech isn't supported in this browser."); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  const voices = speechSynthesis.getVoices();
+  const gb = voices.find(v=>v.lang==="en-GB") || voices.find(v=>v.lang && v.lang.startsWith("en"));
+  if(gb) u.voice = gb;
+  u.lang = gb ? gb.lang : "en-GB";
+  u.rate = window._speechRate || 1;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+/* ============================================================
+   VOCAB CARDS
+   ============================================================ */
+const vocabGrid = document.getElementById("vocabGrid");
+VOCAB.forEach((v,i)=>{
+  const card = document.createElement("div");
+  card.className="flash";
+  card.innerHTML = `
+   <div class="flash-inner">
+     <div class="flash-face front">
+       <span class="big-emoji" aria-hidden="true">${v.e}</span>
+       <span class="word">${v.w}</span>
+       <small>${v.ipa}</small>
+       <small>Tap to flip</small>
+     </div>
+     <div class="flash-face back">
+       <button class="pron-btn" aria-label="Play pronunciation" data-word="${v.w}">🔊</button>
+       <span class="word">${v.w}</span>
+       <small>${v.def}</small>
+       <span class="example">"${v.ex}"</span>
+       <span class="badge">${v.col}</span>
+     </div>
+   </div>`;
+  card.addEventListener("click", (e)=>{
+    if(e.target.classList.contains("pron-btn")) return;
+    card.classList.toggle("flipped");
+    playTone("click");
+    if(card.classList.contains("flipped")) checkVocabComplete();
+  });
+  vocabGrid.appendChild(card);
+});
+vocabGrid.addEventListener("click", e=>{
+  if(e.target.classList.contains("pron-btn")){
+    e.stopPropagation();
+    speak(e.target.dataset.word);
+  }
+});
+let vocabSeen = new Set();
+function checkVocabComplete(){
+  document.querySelectorAll("#vocabGrid .flash.flipped").forEach((c,i)=>vocabSeen.add(i));
+  if(vocabSeen.size >= VOCAB.length && !state.badges.vocab){
+    addXP(20,"vocab");
+    toast("🏅 Vocabulary Hero badge earned! +20 XP","good");
+    confetti(30);
+  }
+}
+
+/* ============================================================
+   LISTENING SECTION
+   ============================================================ */
+const listenTabsEl = document.getElementById("listenTabs");
+const listenPanelsEl = document.getElementById("listenPanels");
+const LISTEN_ACTIVITIES = [
+ {id:"pic", label:"Choose the picture", build:buildListenPic},
+ {id:"fill", label:"Fill in the word", build:buildListenFill},
+ {id:"mc", label:"Multiple choice", build:buildListenMC},
+ {id:"order", label:"Order the sentence", build:buildListenOrder}
+];
+LISTEN_ACTIVITIES.forEach((a,i)=>{
+  const btn = document.createElement("button");
+  btn.textContent = a.label;
+  btn.className = i===0 ? "active":"";
+  btn.addEventListener("click", ()=>{
+    listenTabsEl.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    listenPanelsEl.innerHTML="";
+    a.build();
+    playTone("click");
+  });
+  listenTabsEl.appendChild(btn);
+});
+function speedControl(){
+  return `<div style="margin:10px 0;">Speed:
+    <button class="btn small ghost" onclick="window._speechRate=0.7">🐢 Slow</button>
+    <button class="btn small ghost" onclick="window._speechRate=1">🙂 Normal</button></div>`;
+}
+function buildListenPic(){
+  const v = VOCAB[Math.floor(Math.random()*VOCAB.length)];
+  const opts = shuffle([v, ...shuffle(VOCAB.filter(x=>x!==v)).slice(0,3)]);
+  listenPanelsEl.innerHTML = `<div class="card">
+    <p>Listen, then choose the correct picture.</p>
+    ${speedControl()}
+    <button class="btn small cyan" id="playListen">▶ Play</button>
+    <div class="grid cols-4" style="margin-top:16px;" id="picOpts"></div>
+  </div>`;
+  document.getElementById("playListen").onclick = ()=>speak(v.w);
+  const wrap = document.getElementById("picOpts");
+  opts.forEach(o=>{
+    const b = document.createElement("button");
+    b.className="btn ghost";
+    b.style.fontSize="2rem";
+    b.innerHTML = o.e;
+    b.onclick = ()=>{ o===v ? gradeGood("Correct! That's "+v.w+".") : gradeBad("Not quite — listen again!"); };
+    wrap.appendChild(b);
+  });
+}
+function buildListenFill(){
+  const s = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
+  const idx = s.words.findIndex(w=>w!=="." && w.length>3);
+  const missing = s.words[idx];
+  const sentence = s.words.map((w,i)=> i===idx ? "_____" : w).join(" ").replace(" .",".");
+  listenPanelsEl.innerHTML = `<div class="card">
+    <p>Listen to the full sentence, then type the missing word.</p>
+    ${speedControl()}
+    <button class="btn small cyan" id="playListen">▶ Play</button>
+    <p style="font-family:var(--font-display);font-size:1.15rem;margin-top:14px;">${sentence}</p>
+    <input id="fillInput" placeholder="Type the missing word" style="padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);">
+    <button class="btn small" id="fillCheck">Check</button>
+  </div>`;
+  document.getElementById("playListen").onclick = ()=>speak(s.words.join(" ").replace(" .","."));
+  document.getElementById("fillCheck").onclick = ()=>{
+    const val = document.getElementById("fillInput").value.trim().toLowerCase();
+    val===missing.toLowerCase() ? gradeGood("Correct — the word was '"+missing+"'.") : gradeBad("Try again — listen once more!");
+  };
+}
+function buildListenMC(){
+  const q = QUIZ[Math.floor(Math.random()*QUIZ.length)];
+  listenPanelsEl.innerHTML = `<div class="card">
+    <p>Listen to the question, then pick the right answer.</p>
+    ${speedControl()}
+    <button class="btn small cyan" id="playListen">▶ Play</button>
+    <div id="mcOpts" style="margin-top:14px;"></div>
+  </div>`;
+  document.getElementById("playListen").onclick = ()=>speak(q.q.replace("___","should or shouldn't").replace("_____","should or shouldn't"));
+  const wrap = document.getElementById("mcOpts");
+  q.a.forEach((opt,i)=>{
+    const b = document.createElement("button");
+    b.className="choice-btn"; b.textContent=opt;
+    b.onclick = ()=>{
+      if(i===q.c){ b.classList.add("correct"); gradeGood("Correct!"); }
+      else { b.classList.add("incorrect"); gradeBad("Not quite."); }
+    };
+    wrap.appendChild(b);
+  });
+}
+function buildListenOrder(){
+  const s = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
+  const scrambled = shuffle(s.words.slice());
+  listenPanelsEl.innerHTML = `<div class="card">
+    <p>Listen, then click the words in the correct order.</p>
+    ${speedControl()}
+    <button class="btn small cyan" id="playListen">▶ Play</button>
+    <div class="sentence-line" id="orderLine"></div>
+    <div class="word-bank" id="orderBank"></div>
+    <button class="btn small" id="orderCheck">Check</button>
+    <button class="btn small ghost" id="orderReset">Reset</button>
+  </div>`;
+  document.getElementById("playListen").onclick = ()=>speak(s.words.join(" ").replace(" .","."));
+  const bank = document.getElementById("orderBank");
+  const line = document.getElementById("orderLine");
+  function render(){
+    bank.innerHTML=""; line.querySelectorAll(".word-chip").forEach(c=>{});
+    scrambled.forEach((w,i)=>{
+      const chip = document.createElement("span");
+      chip.className="word-chip"; chip.textContent=w;
+      chip.onclick = ()=>{
+        if(chip.classList.contains("used")) return;
+        chip.classList.add("used");
+        const placed = document.createElement("span");
+        placed.className="word-chip"; placed.textContent=w;
+        line.appendChild(placed);
+      };
+      bank.appendChild(chip);
+    });
+  }
+  render();
+  document.getElementById("orderReset").onclick = ()=>{ line.innerHTML=""; render(); };
+  document.getElementById("orderCheck").onclick = ()=>{
+    const built = Array.from(line.querySelectorAll(".word-chip")).map(c=>c.textContent).join(" ");
+    built===s.words.join(" ") ? gradeGood("Perfect order!") : gradeBad("Listen again and try the order once more.");
+  };
+}
+function gradeGood(msg){ toast(msg,"good"); playTone("good"); byteReact(true); if(!state.badges.listening){ addXP(15,"listening"); toast("🏅 Listening Champion +15 XP","good"); } }
+function gradeBad(msg){ toast(msg,"bad"); playTone("bad"); byteReact(false); }
+buildListenPic();
+
+/* ============================================================
+   GRAMMAR SCENARIOS
+   ============================================================ */
+let scenarioIdx = 0;
+function renderScenario(){
+  const s = SCENARIOS[scenarioIdx % SCENARIOS.length];
+  const opts = Math.random()>0.5 ? [s.correct,s.wrong] : [s.wrong,s.correct];
+  document.getElementById("scenarioBox").innerHTML = `
+    <div class="scenario">
+      <div class="situation">💬 "${s.sit}"</div>
+      <div>
+        ${opts.map(o=>`<button class="choice-btn" data-correct="${o===s.correct}">${o}</button>`).join("")}
+      </div>
+    </div>`;
+}
+document.getElementById("scenarioBox").addEventListener("click", e=>{
+  if(!e.target.classList.contains("choice-btn")) return;
+  const good = e.target.dataset.correct==="true";
+  e.target.classList.add(good?"correct":"incorrect");
+  document.querySelectorAll("#scenarioBox .choice-btn").forEach(b=>b.disabled=true);
+  if(good){ gradeGood("Yes! That's the best advice."); grammarProgress++; }
+  else { gradeBad("Hmm, think about it again next time."); }
+  checkGrammarBadge();
+});
+let grammarProgress = 0;
+function checkGrammarBadge(){
+  if(grammarProgress>=4 && !state.badges.grammar){
+    addXP(20,"grammar");
+    toast("🏅 Grammar Master badge earned! +20 XP","good");
+    confetti(30);
+  }
+  if(grammarProgress>=2) document.getElementById("explainBox").style.display="block";
+}
+document.getElementById("nextScenario").addEventListener("click", ()=>{
+  scenarioIdx++; renderScenario(); playTone("click");
+});
+renderScenario();
+
+/* ============================================================
+   GAMES TAB SWITCHER
+   ============================================================ */
+const GAMES = [
+  {id:"memory", label:"🧠 Memory"},
+  {id:"dragdrop", label:"🎯 Drag & Drop"},
+  {id:"quiz", label:"⚡ Fast Quiz"},
+  {id:"sentence", label:"🧩 Sentence Builder"},
+  {id:"wheel", label:"🎡 Spin the Wheel"},
+  {id:"mission", label:"🚀 Mission Mode"}
+];
+const gameTabs = document.getElementById("gameTabs");
+GAMES.forEach((g,i)=>{
+  const b = document.createElement("button");
+  b.textContent = g.label;
+  b.className = i===0?"active":"";
+  b.onclick = ()=>{
+    gameTabs.querySelectorAll("button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    document.querySelectorAll("#practice .panel").forEach(p=>p.classList.remove("active"));
+    document.getElementById("game-"+g.id).classList.add("active");
+    playTone("click");
+  };
+  gameTabs.appendChild(b);
+});
+document.getElementById("game-"+GAMES[0].id).classList.add("active");
+
+let gamesWon = new Set();
+function checkGamesBadge(name){
+  gamesWon.add(name);
+  if(gamesWon.size>=3 && !state.badges.games){
+    addXP(25,"games");
+    toast("🏅 Technology Expert badge earned! +25 XP","good");
+    confetti(30);
+  }
+}
+
+/* ---- Memory game ---- */
+function buildMemory(){
+  const chosen = shuffle(VOCAB.slice()).slice(0,6);
+  let deck = shuffle([...chosen.map(v=>({key:v.w,val:v.w,type:"word"})), ...chosen.map(v=>({key:v.w,val:v.e,type:"emoji"}))]);
+  const grid = document.getElementById("memoryGrid");
+  grid.innerHTML="";
+  let first=null, lock=false, matches=0;
+  deck.forEach((d,i)=>{
+    const c = document.createElement("button");
+    c.className="mem-card"; c.dataset.key=d.key; c.dataset.idx=i;
+    c.textContent="❓";
+    c.addEventListener("click",()=>{
+      if(lock || c.classList.contains("matched") || c===first) return;
+      c.classList.add("revealed"); c.textContent = d.val; playTone("click");
+      if(!first){ first=c; return; }
+      lock=true;
+      const a=first, b=c;
+      setTimeout(()=>{
+        if(a.dataset.key===b.dataset.key){
+          a.classList.add("matched"); b.classList.add("matched");
+          matches++;
+          gradeGood("Match found!");
+          if(matches===chosen.length) checkGamesBadge("memory");
+        } else {
+          a.classList.remove("revealed"); b.classList.remove("revealed");
+          a.textContent="❓"; b.textContent="❓";
+          gradeBad("Not a match.");
+        }
+        first=null; lock=false;
+      }, 700);
+    });
+    grid.appendChild(c);
+  });
+}
+buildMemory();
+
+/* ---- Drag & drop (click to match) ---- */
+function buildDragDrop(){
+  const chosen = shuffle(VOCAB.slice()).slice(0,6);
+  const words = document.getElementById("ddWords");
+  const targets = document.getElementById("ddTargets");
+  words.innerHTML = "<h3>Words</h3>";
+  targets.innerHTML = "<h3>Definitions</h3>";
+  let selected=null, done=0;
+  const shuffledDefs = shuffle(chosen.slice());
+  chosen.forEach(v=>{
+    const item = document.createElement("div");
+    item.className="dd-item"; item.textContent=v.w; item.dataset.word=v.w;
+    item.onclick = ()=>{
+      if(item.classList.contains("used")) return;
+      document.querySelectorAll("#ddWords .dd-item").forEach(x=>x.style.outline="none");
+      selected = item; item.style.outline="3px solid var(--violet)";
+      playTone("click");
+    };
+    words.appendChild(item);
+  });
+  shuffledDefs.forEach(v=>{
+    const t = document.createElement("div");
+    t.className="dd-target"; t.textContent=v.def; t.dataset.word=v.w;
+    t.onclick = ()=>{
+      if(!selected || t.classList.contains("filled")) return;
+      if(selected.dataset.word===t.dataset.word){
+        t.classList.add("filled"); t.textContent = selected.dataset.word+" — "+t.textContent;
+        selected.classList.add("used"); selected.style.pointerEvents="none";
+        done++;
+        gradeGood("Matched!");
+        selected=null;
+        if(done===chosen.length) checkGamesBadge("dragdrop");
+      } else {
+        t.classList.add("wrong-flash");
+        setTimeout(()=>t.classList.remove("wrong-flash"),500);
+        gradeBad("That's not the match.");
+      }
+    };
+    targets.appendChild(t);
+  });
+}
+buildDragDrop();
+
+/* ---- Fast Quiz ---- */
+let quizTimerId, quizScore=0, quizQ=0, quizOrder=[];
+document.getElementById("quizStart").onclick = ()=>{
+  quizScore=0; quizQ=0; quizOrder = shuffle(QUIZ.slice());
+  let time=30;
+  document.getElementById("quizTimer").textContent=time+"s";
+  clearInterval(quizTimerId);
+  quizTimerId = setInterval(()=>{
+    time--; document.getElementById("quizTimer").textContent=time+"s";
+    if(time<=0){ clearInterval(quizTimerId); endQuiz(); }
+  },1000);
+  nextQuizQ();
+  playTone("click");
+};
+function nextQuizQ(){
+  if(quizQ>=quizOrder.length){ endQuiz(); return; }
+  const q = quizOrder[quizQ];
+  document.getElementById("quizCard").innerHTML = `<h3>${q.q}</h3>
+    <div>${q.a.map((o,i)=>`<button class="choice-btn" data-i="${i}">${o}</button>`).join("")}</div>`;
+  document.querySelectorAll("#quizCard .choice-btn").forEach(b=>{
+    b.onclick = ()=>{
+      const correct = Number(b.dataset.i)===q.c;
+      if(correct){ b.classList.add("correct"); quizScore++; playTone("good"); }
+      else { b.classList.add("incorrect"); playTone("bad"); }
+      quizQ++;
+      setTimeout(nextQuizQ, 350);
+    };
+  });
+}
+function endQuiz(){
+  clearInterval(quizTimerId);
+  document.getElementById("quizCard").innerHTML = `<h3>Time's up! Score: ${quizScore}/${quizOrder.length||QUIZ.length}</h3><p>Press start to play again.</p>`;
+  if(quizScore>=Math.ceil((quizOrder.length||QUIZ.length)*0.6)){ addXP(10); toast("Great score! +10 XP","good"); confetti(20); checkGamesBadge("quiz"); }
+}
+
+/* ---- Sentence Builder ---- */
+let sbIdx = 0, sbBuilt=[];
+function buildSentenceGame(){
+  const s = SENTENCES[sbIdx % SENTENCES.length];
+  sbBuilt = [];
+  const bank = document.getElementById("sentenceBank");
+  const line = document.getElementById("sentenceLine");
+  line.innerHTML="";
+  bank.innerHTML="";
+  shuffle(s.words.slice()).forEach(w=>{
+    const chip = document.createElement("span");
+    chip.className="word-chip"; chip.textContent=w;
+    chip.onclick = ()=>{
+      if(chip.classList.contains("used")) return;
+      chip.classList.add("used");
+      const placed = document.createElement("span"); placed.className="word-chip"; placed.textContent=w;
+      line.appendChild(placed);
+      playTone("click");
+    };
+    bank.appendChild(chip);
+  });
+  window._currentSentence = s.words.join(" ").replace(" .",".");
+}
+document.getElementById("checkSentence").onclick = ()=>{
+  const built = Array.from(document.getElementById("sentenceLine").querySelectorAll(".word-chip")).map(c=>c.textContent).join(" ").replace(" .",".");
+  if(built===window._currentSentence){ gradeGood("Perfect sentence: \""+built+"\""); checkGamesBadge("sentence"); sbIdx++; buildSentenceGame(); }
+  else gradeBad("Not quite the right order — try again.");
+};
+document.getElementById("resetSentence").onclick = buildSentenceGame;
+document.getElementById("nextSentence").onclick = ()=>{ sbIdx++; buildSentenceGame(); };
+buildSentenceGame();
+
+/* ---- Spin the Wheel ---- */
+const wheelCanvas = document.getElementById("wheel");
+const wctx = wheelCanvas.getContext("2d");
+const wheelColors = ["#6C5CE7","#00D9C0","#FF6B6B","#FFD93D","#8E7CFF","#0F9F6E"];
+function drawWheel(){
+  const n = VOCAB.length, r = 140, cx=140, cy=140;
+  for(let i=0;i<n;i++){
+    const a0 = (i/n)*2*Math.PI, a1 = ((i+1)/n)*2*Math.PI;
+    wctx.beginPath(); wctx.moveTo(cx,cy); wctx.arc(cx,cy,r,a0,a1); wctx.closePath();
+    wctx.fillStyle = wheelColors[i%wheelColors.length]; wctx.fill();
+    wctx.save(); wctx.translate(cx,cy); wctx.rotate((a0+a1)/2); wctx.fillStyle="#fff";
+    wctx.font="20px sans-serif"; wctx.textAlign="right";
+    wctx.fillText(VOCAB[i].e, r-14, 6);
+    wctx.restore();
+  }
+}
+drawWheel();
+let wheelRot = 0;
+document.getElementById("spinBtn").onclick = ()=>{
+  const idx = Math.floor(Math.random()*VOCAB.length);
+  const seg = 360/VOCAB.length;
+  const target = 360*4 + (360 - (idx*seg + seg/2));
+  wheelRot += target;
+  wheelCanvas.style.transform = `rotate(${wheelRot}deg)`;
+  playTone("click");
+  setTimeout(()=>{
+    const v = VOCAB[idx];
+    const resBox = document.getElementById("wheelResult");
+    resBox.style.display="block";
+    resBox.innerHTML = `<h3>${v.e} ${v.w}</h3><p>Make a sentence with <b>should</b> or <b>shouldn't</b> using "${v.w}". Say it aloud or type it below.</p>
+      <input id="wheelInput" placeholder="You should..." style="padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);width:100%;max-width:360px;">
+      <button class="btn small" id="wheelSubmit">Submit</button>`;
+    document.getElementById("wheelSubmit").onclick = ()=>{
+      const val = document.getElementById("wheelInput").value.trim().toLowerCase();
+      if(val.includes("should")){ gradeGood("Nice sentence!"); checkGamesBadge("wheel"); }
+      else gradeBad("Try using 'should' or 'shouldn't' in your sentence.");
+    };
+  }, 3600);
+};
+
+/* ---- Mission Mode ---- */
+let missionIdx=0, missionScore=0;
+function buildMission(){
+  if(missionIdx>=MISSION.length){
+    document.getElementById("missionBox").innerHTML = `<div class="q-card"><h3>Mission complete! Alex is ready for school. 🎒</h3>
+    <p>Score: ${missionScore}/${MISSION.length}</p>
+    <button class="btn small" id="missionRestart">Play again</button></div>`;
+    document.getElementById("missionRestart").onclick = ()=>{ missionIdx=0; missionScore=0; buildMission(); };
+    if(missionScore===MISSION.length){ addXP(15); toast("Mission accomplished! +15 XP","good"); confetti(25); checkGamesBadge("mission"); }
+    return;
+  }
+  const m = MISSION[missionIdx];
+  document.getElementById("missionBox").innerHTML = `<div class="q-card">
+    <p><b>Situation ${missionIdx+1}/${MISSION.length}:</b> ${m.sit}</p>
+    ${m.options.map((o,i)=>`<button class="choice-btn" data-i="${i}">${o}</button>`).join("")}
+  </div>`;
+  document.querySelectorAll("#missionBox .choice-btn").forEach(b=>{
+    b.onclick = ()=>{
+      const ok = Number(b.dataset.i)===m.c;
+      if(ok){ b.classList.add("correct"); missionScore++; gradeGood("Good advice, Alex says thanks!"); }
+      else { b.classList.add("incorrect"); gradeBad("Alex isn't sure about that..."); }
+      missionIdx++;
+      setTimeout(buildMission, 700);
+    };
+  });
+}
+buildMission();
+
+/* ============================================================
+   READING
+   ============================================================ */
+document.getElementById("storyBox").innerHTML = STORY.split("\n\n").map(p=>`<p>${p}</p>`).join("");
+const READ_ACTIVITIES = [
+ {id:"mc", label:"Multiple choice", build:buildReadMC},
+ {id:"tf", label:"True / False", build:buildReadTF},
+ {id:"inf", label:"Inference", build:buildReadInference},
+ {id:"seq", label:"Sequencing", build:buildReadSeq}
+];
+const readTabs = document.getElementById("readTabs");
+const readPanels = document.getElementById("readPanels");
+READ_ACTIVITIES.forEach((a,i)=>{
+  const b = document.createElement("button");
+  b.textContent=a.label; b.className = i===0?"active":"";
+  b.onclick = ()=>{ readTabs.querySelectorAll("button").forEach(x=>x.classList.remove("active")); b.classList.add("active"); readPanels.innerHTML=""; a.build(); playTone("click"); };
+  readTabs.appendChild(b);
+});
+function buildReadMC(){
+  readPanels.innerHTML = `<div class="card">
+    <p><b>What does Ben's teacher say about tablets?</b></p>
+    <button class="choice-btn" data-ok="1">Bring the tablet for the art project.</button>
+    <button class="choice-btn" data-ok="0">Leave the tablet at home.</button>
+    <button class="choice-btn" data-ok="0">Sell the tablet.</button>
+  </div>`;
+  attachReadingChoices();
+}
+function buildReadTF(){
+  readPanels.innerHTML = `<div class="card">
+    <p><b>True or False: Ben plays his games console for one hour.</b></p>
+    <button class="choice-btn" data-ok="1">True</button>
+    <button class="choice-btn" data-ok="0">False</button>
+  </div>`;
+  attachReadingChoices();
+}
+function buildReadInference(){
+  readPanels.innerHTML = `<div class="card">
+    <p><b>Why does Ben's mum check her fitness tracker?</b></p>
+    <button class="choice-btn" data-ok="1">To see how many steps she walked.</button>
+    <button class="choice-btn" data-ok="0">To print a document.</button>
+    <button class="choice-btn" data-ok="0">To watch a film.</button>
+  </div>`;
+  attachReadingChoices();
+}
+function buildReadSeq(){
+  const events = shuffle(["Ben checks his smartphone","Ben goes to school","Ben plays his games console","The family listens to music"]);
+  readPanels.innerHTML = `<div class="card">
+    <p>Click the events in the order they happen in the story.</p>
+    <div class="sentence-line" id="seqLine"></div>
+    <div class="word-bank" id="seqBank"></div>
+    <button class="btn small" id="seqCheck">Check order</button>
+  </div>`;
+  const bank = document.getElementById("seqBank"), line = document.getElementById("seqLine");
+  events.forEach(ev=>{
+    const chip = document.createElement("span"); chip.className="word-chip"; chip.textContent=ev;
+    chip.onclick=()=>{ if(chip.classList.contains("used"))return; chip.classList.add("used");
+      const p=document.createElement("span"); p.className="word-chip"; p.textContent=ev; line.appendChild(p); };
+    bank.appendChild(chip);
+  });
+  document.getElementById("seqCheck").onclick = ()=>{
+    const correctOrder = ["Ben checks his smartphone","Ben goes to school","Ben plays his games console","The family listens to music"];
+    const built = Array.from(line.querySelectorAll(".word-chip")).map(c=>c.textContent);
+    JSON.stringify(built)===JSON.stringify(correctOrder) ? gradeGood("Correct sequence!") : gradeBad("Not quite the right order — reread the story.");
+  };
+}
+function attachReadingChoices(){
+  document.querySelectorAll("#readPanels .choice-btn").forEach(b=>{
+    b.onclick = ()=>{
+      if(b.dataset.ok==="1"){ b.classList.add("correct"); gradeGood("Correct!"); }
+      else { b.classList.add("incorrect"); gradeBad("Not quite — check the story again."); }
+      document.querySelectorAll("#readPanels .choice-btn").forEach(x=>x.disabled=true);
+    };
+  });
+}
+buildReadMC();
+
+/* ============================================================
+   WRITING
+   ============================================================ */
+const startersEl = document.getElementById("starters");
+STARTERS.forEach(s=>{ const c=document.createElement("span"); c.className="starter-chip"; c.textContent=s; startersEl.appendChild(c); });
+document.getElementById("paragraph").value = state.writing || "";
+document.getElementById("saveWriting").onclick = ()=>{
+  state.writing = document.getElementById("paragraph").value;
+  save();
+  document.getElementById("writingSaved").textContent = "Saved ✔";
+  playTone("good");
+  setTimeout(()=>document.getElementById("writingSaved").textContent="", 2500);
+};
+
+/* ============================================================
+   SPEAKING
+   ============================================================ */
+const speakWrap = document.getElementById("speakingPrompts");
+SPEAKING.forEach(q=>{
+  const card = document.createElement("div"); card.className="card";
+  card.innerHTML = `<p style="font-weight:600;">${q}</p>
+   <button class="btn small cyan hearq">🔊 Hear question</button>
+   <button class="btn small ghost recbtn">🎤 Record my answer</button>
+   <span class="recstatus" style="margin-left:8px;color:var(--text-soft);font-size:.85rem;"></span>`;
+  card.querySelector(".hearq").onclick = ()=>speak(q);
+  card.querySelector(".recbtn").onclick = ()=>{
+    const status = card.querySelector(".recstatus");
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR){ status.textContent = "Recording not supported — practise speaking aloud instead!"; return; }
+    const rec = new SR(); rec.lang="en-GB"; rec.interimResults=false;
+    status.textContent = "Listening...";
+    rec.start();
+    rec.onresult = (ev)=>{ status.textContent = "You said: \""+ev.results[0][0].transcript+"\""; playTone("good"); };
+    rec.onerror = ()=>{ status.textContent = "Couldn't hear you — try again."; };
+  };
+  speakWrap.appendChild(card);
+});
+
+/* ============================================================
+   FINAL MISSION — ESCAPE ROOM + CERTIFICATE
+   ============================================================ */
+const LOCKS = [
+ {q:"Unscramble: DLUOHS → what modal verb is this?",a:"should"},
+ {q:"Complete: You _____ (should not, short form) play games all night.",a:"shouldn't"},
+ {q:"Which device do you type on? (k _ _ _ _ _ _ d)",a:"keyboard"}
+];
+let lockIdx = 0;
+const locksGrid = document.getElementById("locksGrid");
+function renderLocks(){
+  locksGrid.innerHTML = LOCKS.map((l,i)=>`<div class="card" style="text-align:center;">
+     <div style="font-size:2rem;">${i<lockIdx ? "🔓" : "🔒"}</div>
+     <p style="color:var(--text-soft);font-size:.85rem;">Lock ${i+1}</p>
+   </div>`).join("");
+}
+function renderLockQuestion(){
+  if(lockIdx>=LOCKS.length){
+    document.getElementById("lockQuestion").innerHTML="";
+    document.getElementById("certArea").style.display="block";
+    confetti(50); playTone("level");
+    return;
+  }
+  const l = LOCKS[lockIdx];
+  document.getElementById("lockQuestion").innerHTML = `<div class="card">
+    <p><b>${l.q}</b></p>
+    <input id="lockInput" placeholder="Type your answer" style="padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);">
+    <button class="btn small" id="lockSubmit">Unlock 🔓</button>
+    <p id="lockMsg" style="color:var(--text-soft);"></p>
+  </div>`;
+  document.getElementById("lockSubmit").onclick = ()=>{
+    const v = document.getElementById("lockInput").value.trim().toLowerCase();
+    if(v===l.a){
+      lockIdx++; renderLocks(); renderLockQuestion();
+      gradeGood("Lock open!");
+    } else {
+      document.getElementById("lockMsg").textContent = "Not quite — try again!";
+      playTone("bad"); byteReact(false);
+    }
+  };
+}
+renderLocks(); renderLockQuestion();
+
+document.getElementById("genCert").onclick = ()=>{
+  const name = document.getElementById("studentName").value.trim() || "Tech Squad Student";
+  const lvl = Math.floor(state.xp/100)+1;
+  const earnedBadges = Object.entries(state.badges).filter(([k,v])=>v).map(([k])=>({
+    vocab:"🏅 Vocabulary Hero", grammar:"🏅 Grammar Master", listening:"🏅 Listening Champion", games:"🏅 Technology Expert"
+  }[k]));
+  const pct = Math.min(100, Math.round((Object.values(state.badges).filter(Boolean).length/4)*100));
+  document.getElementById("certOutput").innerHTML = `
+    <div class="cert">
+      <div class="seal">🎓</div>
+      <h2>Certificate of Achievement</h2>
+      <p>This certifies that</p>
+      <div class="name">${name}</div>
+      <p style="margin-top:14px;">has successfully completed the <b>Tech Squad Mission</b><br>Technology Vocabulary &amp; should / shouldn't — A2 Level</p>
+      <p><b>Score:</b> ${state.xp} XP · Level ${lvl} · Completion: ${pct}%</p>
+      <p><b>Badges earned:</b> ${earnedBadges.length? earnedBadges.join(" · ") : "Keep practising to earn badges!"}</p>
+      <p style="color:var(--text-soft);font-size:.85rem;">Speak Language Center · ${new Date().toLocaleDateString()}</p>
+    </div>`;
+  addXP(30);
+  toast("Certificate generated! 🎉","good");
+};
+
+/* ============================================================
+   BADGES WALL
+   ============================================================ */
+const BADGE_DEFS = [
+ {key:"vocab", ic:"🏅", name:"Vocabulary Hero"},
+ {key:"grammar", ic:"🏅", name:"Grammar Master"},
+ {key:"listening", ic:"🏅", name:"Listening Champion"},
+ {key:"games", ic:"🏅", name:"Technology Expert"}
+];
+const badgeWall = document.getElementById("badgeWall");
+BADGE_DEFS.forEach(b=>{
+  const el = document.createElement("div");
+  el.className="badge-card"; el.dataset.key=b.key;
+  el.innerHTML = `<div class="ic">${b.ic}</div><div style="font-family:var(--font-display);font-weight:700;font-size:.85rem;margin-top:6px;">${b.name}</div>`;
+  badgeWall.appendChild(el);
+});
+document.getElementById("resetProgress").onclick = ()=>{
+  if(confirm("Reset all your XP, badges and writing? This can't be undone.")){
+    localStorage.removeItem("techSquadState");
+    location.reload();
+  }
+};
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
+  return arr;
+}
+
+renderProgress();
+</script>
+</body>
+</html>
